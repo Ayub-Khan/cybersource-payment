@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*.pyc
 
 # C extensions
 *.so
@@ -99,3 +100,12 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# JetBrains
+.idea/
+
+# OS X
+.DS_Store
+
+# Editor Temp Files
+*.swp
