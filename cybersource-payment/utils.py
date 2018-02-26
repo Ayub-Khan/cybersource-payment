@@ -4,6 +4,8 @@ from django.apps import apps
 from django.apps.config import MODELS_MODULE_NAME
 from django.core.exceptions import AppRegistryNotReady
 
+from .models import PaymentProcessorResponse
+
 
 def get_model(app_label, model_name):
     """
@@ -49,3 +51,24 @@ def is_model_registered(app_label, model_name):
         return False
     else:
         return True
+
+
+def record_processor_response(response, transaction_id=None, reference=None):
+        """
+        Save the processor's response to the database for auditing.
+
+        Arguments:
+            response (dict): Response received from the payment processor
+            transaction_id (string): Identifier for the transaction on the payment processor's servers
+            reference (string): Basket associated with the payment event (e.g., being purchased)
+
+        Return
+            PaymentProcessorResponse
+        """
+        payment_processor_response = PaymentProcessorResponse.objects.create(
+            transaction_id=transaction_id,
+            response=response,
+            reference=reference
+        )
+        payment_processor_response.save()
+        return payment_processor_response
